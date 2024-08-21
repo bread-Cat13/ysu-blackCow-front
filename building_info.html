@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yonsei Map - 건물 상세 정보</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 건물 사진 배경 -->
+    <div id="building-background"></div>
+
+    <!-- 건물 이름 표시 -->
+    <div id="building-name">공학관</div>
+
+    <!-- 오버레이 섹션 -->
+    <div id="info-overlay">
+        <!-- 층 아이콘 나열 -->
+        <div id="floor-icons">
+            <div class="floor-icon" data-floor="B1">B1</div>
+            <div class="floor-icon" data-floor="1F">1F</div>
+            <div class="floor-icon" data-floor="2F">2F</div>
+            <div class="floor-icon" data-floor="3F">3F</div>
+            <!-- 더 많은 층 아이콘이 있을 경우 추가 -->
+        </div>
+
+        <!-- 메뉴 섹션 -->
+        <div id="menu-options">
+            <div class="menu-item">식당 정보</div>
+            <div class="menu-item">화장실 위치</div>
+            <div class="menu-item">강의실 정보</div>
+            <!-- 기타 메뉴들 -->
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

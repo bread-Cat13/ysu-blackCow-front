@@ -1,0 +1,69 @@
+/* 기본 페이지 스타일 */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+/* 선택 페이지의 컨테이너 */
+.selection-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+/* 각각의 선택 영역 */
+.selection {
+    width: 50%;
+    height: 100%;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* 마우스 오버 시 밝아지는 효과 */
+.selection:hover {
+    filter: brightness(1.2);
+}
+
+/* 송도캠퍼스 배경 이미지 */
+#left-selection {
+    background-image: url('songdo-campus.jpg'); /* 실제 이미지 경로로 교체 */
+}
+
+/* 신촌캠퍼스 배경 이미지 */
+#right-selection {
+    background-image: url('sinchon-campus.jpg'); /* 실제 이미지 경로로 교체 */
+}
+
+/* 선택 영역 안의 텍스트 */
+.selection-text {
+    position: absolute;
+    bottom: 33%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* 언어모델 아이콘 자리 */
+#chat-icon {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    background-color: gray; /* 임시 색상, 실제 아이콘 이미지로 대체 */
+    border-radius: 50%;
+    cursor: pointer;
+}
