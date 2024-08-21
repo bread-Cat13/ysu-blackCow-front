@@ -1,0 +1,60 @@
+/* 기본 페이지 스타일 */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+/* 배경 이미지 컨테이너 */
+.background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+/* 왼쪽 배경 이미지 */
+#left-background {
+    width: 50%;
+    height: 100%;
+    background-image: url('left-image.jpg'); /* 여기에 실제 이미지 경로 입력 */
+    background-size: cover;
+    background-position: center;
+}
+
+/* 오른쪽 배경 이미지 */
+#right-background {
+    width: 50%;
+    height: 100%;
+    background-image: url('right-image.jpg'); /* 여기에 실제 이미지 경로 입력 */
+    background-size: cover;
+    background-position: center;
+}
+
+/* 텍스트 스타일 */
+#intro-text {
+    position: absolute;
+    font-size: 2rem;
+    color: #000;
+    opacity: 0;
+    z-index: 10;
+    animation: fadeIn 0.7s forwards;
+}
+
+/* 텍스트 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yonsei Map - 캠퍼스 지도</title>
+    <link rel="stylesheet" href="map.css">
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID"></script>
+</head>
+<body>
+    <!-- 네이버 지도 영역 -->
+    <div id="map"></div>
+
+    <!-- 건물 정보 오버레이 섹션 (초기에는 숨김) -->
+    <div id="building-info">
+        <h2 id="building-name"></h2>
+        <p id="building-details"></p>
+    </div>
+
+    <script src="map.js"></script>
+</body>
+</html>

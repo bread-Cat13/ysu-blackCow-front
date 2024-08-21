@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yonsei Map - 페이지</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 페이지 컨텐츠 영역 -->
+    <div id="page-content">
+        <!-- 페이지별 콘텐츠는 여기에 -->
+    </div>
+
+    <!-- 언어모델 챗 아이콘 -->
+    <div id="chat-icon"></div>
+
+    <!-- 언어모델 인터페이스 (초기에는 숨김) -->
+    <div id="chat-options">
+        <ul>
+            <li>챗봇의 이전 답변 보기</li>
+            <li>Chat icon 옆으로 밀기</li>
+            <li>이전 대화기록 삭제</li>
+        </ul>
+    </div>
+
+    <!-- 프롬프트 입력 창 (초기에는 숨김) -->
+    <div id="chat-prompt">
+        <input type="text" id="user-input" placeholder="질문을 입력하세요...">
+        <button id="submit-btn">전송</button>
+    </div>
+
+    <!-- 언어모델 응답을 위한 오버레이 섹션 (초기에는 숨김) -->
+    <div id="chat-response-overlay">
+        <div id="chat-response">
+            <!-- 언어모델의 응답이 여기에 표시됩니다 -->
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
