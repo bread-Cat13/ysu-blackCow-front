@@ -1,16 +1,27 @@
 // scripts.js
 document.addEventListener("DOMContentLoaded", function() {
     // 네이버 지도 API 초기화
+    const currClient = document.title;
+    
+    if (currClient === "sinchon map"){
+        locationX = 37.5601;
+        locationY = 126.9368;
+    } else if (currClient === "songdo map"){
+        locationX = 37.3812;
+        locationY = 126.6688;
+    }
+
     var map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(37.5665, 126.9780), // 초기 지도 중심 설정
-        zoom: 17
+        center: new naver.maps.LatLng(locationX, locationY), // 초기 지도 중심 설정
+        zoom: 18
     });
 
-    // 예시 건물 목록
+    //건물 목록
     var buildings = [
-        {
+        {   
+            // 예시
             name: "공학관",
-            position: new naver.maps.LatLng(37.5665, 126.9780),
+            position: new naver.maps.LatLng(37.5619, 126.9364),
             details: "연세대학교 공학관. 다양한 공학 강의가 진행됩니다."
         },
         {
@@ -28,8 +39,9 @@ document.addEventListener("DOMContentLoaded", function() {
             title: building.name,
             icon: {
                 content: `<div class="marker">${building.name}</div>`,
-                size: new naver.maps.Size(38, 58),
-                anchor: new naver.maps.Point(19, 58)
+                size: new naver.maps.Size(58, 38),
+                anchor: new naver.maps.Point(19, 58),
+                url: 'image/pin'
             }
         });
 
@@ -38,6 +50,17 @@ document.addEventListener("DOMContentLoaded", function() {
             map.panTo(building.position); // 마커 위치로 지도 이동
             showBuildingInfo(building);
         });
+
+        /*수정중
+        var infoWindow = new naver.maps.InfoWindow({
+            content: '<div style="padding:10px;">building.name</div>'
+        });
+
+        naver.maps.Event.addEventListener(marker, 'mouseover', function() {
+            infoWindow.open(map, marker);
+        
+        });
+        */
     });
 
     // 건물 정보 표시 함수
@@ -51,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         infoSection.style.display = "block";
 
-        // 화면을 4분할 했을 때 좌상단으로 지도 이동
-        map.panBy(-map.getSize().width / 4, -map.getSize().height / 4);
     }
+
+    naver.maps.Event.addListener(maps, '')
 });
