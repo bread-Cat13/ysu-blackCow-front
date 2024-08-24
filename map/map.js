@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         locationX = 37.3812;
         locationY = 126.6688;
         alert("아직 만드는 중!");
-        window.location.href = "select_region.html"
+        window.location.href = "region/select_region.html"
     }
     // map 객체
     var map = new naver.maps.Map('map', {
