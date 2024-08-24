@@ -16,7 +16,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('building-photo.jpg'); /* 건물 사진 경로 */
+    background-image: url('image/engineering_hall.png'); /* 건물 사진 경로 */
     background-size: cover;
     background-position: center;
     z-index: 1;
@@ -26,22 +26,24 @@ body, html {
 #building-name {
     position: absolute;
     top: 20px;
-    left: 20px;
-    font-size: 2rem;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    left: 30px;
+    font-size: 2.5rem;
+    color: black;
+    text-shadow: 6px 6px 3px rgba(0, 0, 0, 0.5);
     z-index: 2;
 }
 
 /* 오버레이 섹션 */
 #info-overlay {
     position: absolute;
-    top: 50px;
-    right: 20px;
-    width: 300px;
-    background-color: rgba(255, 255, 255, 0.9);
+    top: 0px;
+    right: 0px;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(to right, rgb(211, 212, 210), rgb(0, 0, 0));
+    opacity: 0.9;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 0px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     z-index: 2;
@@ -62,6 +64,7 @@ body, html {
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    /*  */
 }
 
 .floor-icon:hover {
@@ -76,6 +79,7 @@ body, html {
 
 .menu-item {
     margin-bottom: 15px;
+    margin-right: 40px;
     font-size: 16px;
     cursor: pointer;
     transition: color 0.3s ease;
@@ -83,4 +87,9 @@ body, html {
 
 .menu-item:hover {
     color: #007BFF;
+}
+
+#explanation{
+    width: 50%;
+    
 }
