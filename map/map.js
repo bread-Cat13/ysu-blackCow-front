@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // 건물 이름 클릭시 해당 페이지로 이동
     var nameElement = document.getElementById("building-name");
     nameElement.addEventListener('click', function() {
-        window.location.href = "building_info.html"
+        window.location.href = "building/building_info.html"
     })
     
 });
