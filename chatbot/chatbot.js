@@ -93,19 +93,31 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 프롬프트 입력 후 전송 버튼 클릭 시
-    submitBtn.addEventListener("click", function () {
+    submitBtn.addEventListener("click", submitchatbot)
+    async function submitchatbot() {
         const userQuery = userInput.value.trim();
-        if (userQuery !== "") {
-            // 예시 응답 (실제 API 연동 시 서버로부터 받은 데이터를 사용)
-            const responseText = `언어모델의 응답: ${userQuery}에 대한 답변입니다.`;
-
-            // 응답 오버레이 표시
-            chatResponse.innerHTML = `<p>${responseText}</p>`;
-            chatOverlay.style.display = "block";
-            chatPrompt.style.display = "none";  // 입력 창 숨김
+        try {
+            if (userQuery !== "") {
+                const response = await fetch('https://g0whs12323.execute-api.ap-south-1.amazonaws.com/dev/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_input: userQuery })
+                });
+                // 예시 응답 (실제 API 연동 시 서버로부터 받은 데이터를 사용)
+                const data = await response.json()
+                const responseText = JSON.stringify(data)
+                // 응답 오버레이 표시
+                chatResponse.innerHTML = `<p>${responseText}</p>`;
+                chatOverlay.style.display = "block";
+                chatPrompt.style.display = "none";  // 입력 창 숨김
+            }
+        } catch (error) {
+            addMessageToLog(`Error: ${error.message}`);
         }
         userQuery = "";
-    });
+    };
 
     // 챗봇 답변 섹션
     // 흰색 섹션 외부 클릭 시 초기 상태로 복구
