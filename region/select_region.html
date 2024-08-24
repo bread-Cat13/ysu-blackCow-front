@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yonsei Map - 선택 페이지</title>
     <link rel="stylesheet" href="select_region.css">
+    <link rel="stylesheet" href="chatbot/chatbot.css">
 </head>
 <body>
     <div class="selection-container">
@@ -32,7 +33,7 @@
     <!-- 프롬프트 입력 창 (초기에는 숨김) -->
     <div id="chat-prompt">
         <input type="text" id="user-input" placeholder="질문을 입력하세요...">
-        <button id="submit-btn">전송</button>
+        <button id="submit-btn"></button>
     </div>
 
     <!-- 언어모델 응답을 위한 오버레이 섹션 (초기에는 숨김) -->
@@ -41,7 +42,8 @@
             <!-- 언어모델의 응답이 여기에 표시됩니다 -->
         </div>
     </div>
+
     <script src="select_region.js"></script>
-    <script src="chatbot.js"></script>
+    <script src="chatbot/chatbot.js"></script>
 </body>
 </html>
