@@ -69,18 +69,3 @@ body, html {
 #right-selection {
     background-image: url('image/songdo.png'); /* 실제 이미지 경로로 교체 */
 }
-
-/* 언어모델 아이콘 자리 */
-#chat-icon {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    background-color: rgba(170, 214, 174, 0.6);
-    background-image: url('image/chatbot_image.png');
-    background-size:contain;
-}
