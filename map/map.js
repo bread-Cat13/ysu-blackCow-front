@@ -1,15 +1,15 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // 네이버 지도 API 초기화
     const currClient = document.title;
-    
-    if (currClient === "sinchon map"){
+
+    if (currClient === "sinchon map") {
         locationX = 37.5601;
         locationY = 126.9368;
-    } else if (currClient === "songdo map"){
+    } else if (currClient === "songdo map") {
         locationX = 37.3812;
         locationY = 126.6688;
         alert("아직 만드는 중!");
-        window.location.href = "region/select_region.html"
+        window.location.href = "../region/select_region.html"
     }
     // map 객체
     var map = new naver.maps.Map('map', {
@@ -22,14 +22,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var labelMapType = new naver.maps.NaverStyleMapTypeOptions.getNormalLabelLayer();
     var labelMapTypeRegistry = new naver.maps.MapTypeRegistry({
-    'label': labelMapType
+        'label': labelMapType
     });
     var labelLayer = new naver.maps.Layer('label', labelMapTypeRegistry);
 
 
     //건물 목록
     var buildings = [
-        {   
+        {
             // 예시
             name: "공학관",
             position: new naver.maps.LatLng(37.5619, 126.9364),
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
 
     // 건물 마커 및 이벤트 등록
-    buildings.forEach(function(building) {
+    buildings.forEach(function (building) {
         var marker = new naver.maps.Marker({
             position: building.position,
             map: map,
@@ -53,23 +53,23 @@ document.addEventListener("DOMContentLoaded", function() {
                 size: new naver.maps.Size(56, 87),
                 scaledSize: new naver.maps.Size(20, 30),
                 anchor: new naver.maps.Point(40, 10),
-                url: 'image/pin.png'
+                url: '../image/pin.png'
             }
         });
 
         // 마커 클릭 시 건물 정보 표시 및 지도 이동
-        naver.maps.Event.addListener(marker, 'click', function(event) {
+        naver.maps.Event.addListener(marker, 'click', function (event) {
             map.panTo(building.position); // 마커 위치로 지도 이동
             showBuildingInfo(building);
-            
+
             // 클릭 시 이전에 등록된 외부 클릭 이벤트 리스너 제거
             document.removeEventListener('click', hideBuildingInfoOnClickOutside);
-            
+
             // 새로운 외부 클릭 이벤트 리스너 등록
-            setTimeout(function() {
+            setTimeout(function () {
                 document.addEventListener('click', hideBuildingInfoOnClickOutside);
             }, 0); // setTimeout을 사용하여 이벤트 전파 후 실행되도록 설정
-            
+
             event.stopPropagation(); // 마커 클릭 시 이벤트 전파 방지
         });
         /*
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
         */
 
     });
-    
+
     // 건물 정보 표시 함수
     function showBuildingInfo(building) {
         var infoSection = document.getElementById("building-info");
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // 지도 클릭 시 건물 정보 숨김 함수
     function hideBuildingInfoOnClickOutside(event) {
         var infoSection = document.getElementById("building-info");
-    
+
         // 섹션 내부를 클릭한 경우는 제외
         if (!infoSection.contains(event.target)) {
             infoSection.style.display = "none"; // 정보 섹션 숨김
@@ -109,14 +109,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     // stopPropagation
-    document.getElementById("building-info").addEventListener('click', function(event) {
+    document.getElementById("building-info").addEventListener('click', function (event) {
         event.stopPropagation();
     });
 
     // 건물 이름 클릭시 해당 페이지로 이동
     var nameElement = document.getElementById("building-name");
-    nameElement.addEventListener('click', function() {
-        window.location.href = "building/building_info.html"
+    nameElement.addEventListener('click', function () {
+        window.location.href = "../building/building_info.html"
     })
-    
+
 });
