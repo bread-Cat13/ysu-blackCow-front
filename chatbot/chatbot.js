@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } catch (error) {
             addMessageToLog(`Error: ${error.message}`);
         }
-        userQuery = "";
+        userInput.value = "";
     };
 
     // 챗봇 답변 섹션
