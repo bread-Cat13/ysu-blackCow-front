@@ -97,6 +97,9 @@ document.addEventListener("DOMContentLoaded", function() {
     submitBtn.addEventListener("click", submitchatbot);
     let conversationHistory = [];
 
+   submitBtn.addEventListener("click", submitchatbot);
+    let conversationHistory = [];
+
     async function submitchatbot() {
         const userQuery = userInput.value.trim();
         conversationHistory.push(`User: ${userQuery}`);
@@ -145,16 +148,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
               
                 .image-container {
-                  position: relative;
-                  width: 100%;
-                  height: auto;
-                  max-width: 1150px;
-                  max-height: 850px;
+                    position: relative;
+                    width: 80vw;  /* 브라우저 너비의 80% */
+                    height: 60vh; /* 브라우저 높이의 60% */
+                    max-width: 1150px;
+                    max-height: 850px;
+                    overflow: hidden;
                 }
               
                 .main-image {
-                  width: 100%;
-                  height: auto;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;  /* 이미지가 비율을 유지하면서 컨테이너에 맞게 조정 */
                 }
               
                 .overlay-image {
@@ -187,11 +192,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     // 이미지 로드 완료 후 오버레이 추가
                     mapImage.onload = function () {
                         // 오버레이 이미지 추가
-                        const xPos = data.query_result['X_JPG'];
-                        const yPos = data.query_result['Y_JPG'];
+                        const xPos = data.query_result['X_JPG'] - 16;
+                        const yPos = data.query_result['Y_JPG'] - 32;
 
                         const overlay = document.createElement('img');
-                        overlay.src = '../chatbot/location2.png';
+                        overlay.src = '../image/pin2.png';
                         overlay.alt = '오버레이 이미지';
                         overlay.className = 'overlay-image';
                         overlay.id = `overlay-${overlayCount}`;
@@ -207,27 +212,53 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
 
                 function updatePosition(overlay, xPos, yPos) {
-                    const container = document.querySelector('.image-container');
-                    const containerWidth = container.clientWidth;
-                    const containerHeight = container.clientHeight;
+                    const image = document.getElementById('main-map-image');
+                    if (image.complete) {
+                        const naturalWidth = image.naturalWidth;
+                        const naturalHeight = image.naturalHeight;
 
-                    const scaleX = containerWidth / 1150;
-                    const scaleY = containerHeight / 850;
+                        const container = document.querySelector('.image-container');
+                        const containerWidth = container.clientWidth;
+                        const containerHeight = container.clientHeight;
 
-                    overlay.style.left = `${xPos * scaleX - (16 * scaleX)}px`;
-                    overlay.style.top = `${yPos * scaleY - (32 * scaleY)}px`;
+                        // 이미지 비율 유지에 따른 크기 계산
+                        const scaleX = containerWidth / naturalWidth;
+                        const scaleY = containerHeight / naturalHeight;
+                        const scale = Math.min(scaleX, scaleY);  // 이미지를 컨테이너에 맞추는 최소 스케일
 
-                    const overlayOriginalSize = 32;
-                    overlay.style.width = `${overlayOriginalSize * scaleX}px`;
-                    overlay.style.height = `${overlayOriginalSize * scaleY}px`;
+                        // 이미지가 중앙에 위치하도록 계산
+                        const offsetX = (containerWidth - naturalWidth * scale) / 2;
+                        const offsetY = (containerHeight - naturalHeight * scale) / 2;
+
+                        // 오버레이 위치 계산 및 설정
+                        overlay.style.left = `${xPos * scale + offsetX}px`;
+                        overlay.style.top = `${yPos * scale + offsetY}px`;
+
+                        // 오버레이 크기 조정
+                        const overlayOriginalSize = 32;
+                        overlay.style.width = `${overlayOriginalSize * scale}px`;
+                        overlay.style.height = `${overlayOriginalSize * scale}px`;
+                    }
                 }
 
+                // 이벤트 리스너 추가
                 window.addEventListener('resize', () => {
+                    const container = document.querySelector('.image-container');
+                    const containerRect = container.getBoundingClientRect();
+
                     overlayPositions.forEach(pos => {
                         const overlay = document.getElementById(pos.id);
                         updatePosition(overlay, pos.x, pos.y);
                     });
                 });
+
+                window.addEventListener('load', () => {
+                    overlayPositions.forEach(pos => {
+                        const overlay = document.getElementById(pos.id);
+                        updatePosition(overlay, pos.x, pos.y);
+                    });
+                });
+
 
                 // '2D MAP' 링크에 이벤트 리스너 추가
                 document.getElementById('map-link').addEventListener('click', function (event) {
