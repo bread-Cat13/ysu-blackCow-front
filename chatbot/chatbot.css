@@ -10,17 +10,17 @@
     cursor: pointer;
     z-index: 1000;
     background-color: rgba(170, 214, 174, 0.6);
-    background-image: url('image/chatbot_image.png');
-    background-size:contain;
+    background-image: url('../image/chatbot_image.png');
+    background-size: contain;
 }
 
 /* 챗 옵션 메뉴 (숨겨진 상태에서 마우스 오버시 나타남) */
 #chat-options {
     position: absolute;
     bottom: 80px;
-    left: 50%; 
+    left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0,0,0 0.5);
+    background-color: rgba(0, 0, 0 0.5);
     border: 1px solid #ccc;
     padding: 10px;
     display: none;
@@ -40,7 +40,7 @@
     text-decoration: underline;
 }
 
-#chat-options li:hover{
+#chat-options li:hover {
     font-weight: 700;
 }
 
@@ -68,7 +68,7 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: url('image/submit_icon.png') no-repeat center;
+    background: url('../image/submit_icon.png') no-repeat center;
     background-size: cover;
     border: none;
     padding: 0;
