@@ -1,5 +1,5 @@
 // scripts.js
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // 챗 아이콘 요소
     const chatIcon = document.getElementById("chat-icon");
     const chatOptions = document.getElementById("chat-options");
@@ -14,41 +14,41 @@ document.addEventListener("DOMContentLoaded", function() {
     // 챗봇 옵션
     // 챗 아이콘 마우스 오버 시 옵션 메뉴 표시
     let hideOptionTimeout;
-    chatIcon.addEventListener("mouseover", function() {
+    chatIcon.addEventListener("mouseover", function () {
         clearTimeout(hideOptionTimeout);
         chatOptions.style.display = "block";
     });
 
     // 마우스 오버가 끝났을 때 옵션 메뉴 숨김
-    chatIcon.addEventListener("mouseout", function() {
-        hideOptionTimeout = setTimeout(function() {
+    chatIcon.addEventListener("mouseout", function () {
+        hideOptionTimeout = setTimeout(function () {
             chatOptions.style.display = "none";
         }, 200);
     });
 
     // 챗봇 메뉴 마우스 오버 시 옵션 메뉴 표시
-    chatOptions.addEventListener("mouseover", function() {
+    chatOptions.addEventListener("mouseover", function () {
         clearTimeout(hideOptionTimeout);
         chatOptions.style.display = "block";
     })
-// 마우스 오버가 끝났을 때 옵션 메뉴 숨김
-    chatOptions.addEventListener("mouseout", function() {
+    // 마우스 오버가 끝났을 때 옵션 메뉴 숨김
+    chatOptions.addEventListener("mouseout", function () {
         chatOptions.style.display = "none";
     })
-    
-// 옵션 메뉴 클릭
-    liItems.forEach(function(item, index) {
+
+    // 옵션 메뉴 클릭
+    liItems.forEach(function (item, index) {
         if (index === 0) { // 챗봇의 이전 답변 보기
-            item.addEventListener('click', function() {   
-                chatOverlay.style.display ="block";
+            item.addEventListener('click', function () {
+                chatOverlay.style.display = "block";
             })
-        } else if(index === 1) { // Chat icon 옆으로 밀기
-            item.addEventListener('click', function() {
+        } else if (index === 1) { // Chat icon 옆으로 밀기
+            item.addEventListener('click', function () {
                 const currentLeft = parseInt(window.getComputedStyle(chatContainer).left);
                 moveChatIcon(currentLeft);
             })
-        } else if(index === 2) { // 이전 대화기록 삭제
-            item.addEventListener('click', function() {
+        } else if (index === 2) { // 이전 대화기록 삭제
+            item.addEventListener('click', function () {
                 // 수정중
             })
         }
@@ -57,26 +57,26 @@ document.addEventListener("DOMContentLoaded", function() {
     // 메뉴 2 함수
     function moveChatIcon(coorX) {
         const windowWidth = window.innerWidth;
-        if (coorX === Math.floor(windowWidth*0.5)) {
+        if (coorX === Math.floor(windowWidth * 0.5)) {
             chatContainer.style.left = "5%";
         } else {
             chatContainer.style.left = "50%";
         }
     }
-    
+
     // 프롬프트 창
     // 챗 아이콘 클릭 시 프롬프트 입력 창 표시
-    chatIcon.addEventListener("click", function(event) {
+    chatIcon.addEventListener("click", function (event) {
         chatPrompt.style.display = "block";
         chatOptions.style.display = "none";  // 옵션 메뉴 숨김
 
         document.removeEventListener('click', hidePromptOnClickOutside);
-            
+
         // 새로운 외부 클릭 이벤트 리스너 등록
-        setTimeout(function() {
+        setTimeout(function () {
             document.addEventListener('click', hidePromptOnClickOutside);
         }, 0); // setTimeout을 사용하여 이벤트 전파 후 실행되도록 설정
-        
+
         event.stopPropagation(); // 챗본 아이콘 클릭 시 이벤트 전파 방지
     });
 
@@ -88,16 +88,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     // 초기 로딩 시 섹션 외부 클릭이 발생하지 않도록 전파 방지
-    chatPrompt.addEventListener('click', function(event) {
+    chatPrompt.addEventListener('click', function (event) {
         event.stopPropagation();
     });
 
-    
+
     // 프롬프트 입력 후 전송 버튼 클릭 시
     submitBtn.addEventListener("click", submitchatbot);
-    let conversationHistory = [];
-
-   submitBtn.addEventListener("click", submitchatbot);
     let conversationHistory = [];
 
     async function submitchatbot() {
@@ -276,5 +273,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     // 챗봇 답변 섹션
     // 흰색 섹션 외부 클릭 시 초기 상태로 복구
+    chatOverlay.addEventListener("click", function (event) {
+        if (event.target === chatOverlay) {
+            chatOverlay.style.display = "none";
+        }
+    });
 
 });
