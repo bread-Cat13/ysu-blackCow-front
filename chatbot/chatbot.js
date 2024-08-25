@@ -141,7 +141,6 @@ document.addEventListener("DOMContentLoaded", function() {
     chatOverlay.addEventListener("click", function (event) {
         if (event.target === chatOverlay) {
             chatOverlay.style.display = "none";
-            chatResponse.innerHTML = "";  // 응답 내용 초기화
         }
     });
     
