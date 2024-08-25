@@ -63,16 +63,6 @@ document.addEventListener("DOMContentLoaded", function() {
             chatContainer.style.left = "50%";
         }
     }
-
-    // 클릭하면 응답섹션 사라짐
-    function hideChatOverlay(event){
-        if (!chatOverlay.contains(event.target)) {
-            chatOverlay.style.display = "none"; // 정보 섹션 숨김
-            document.removeEventListener('click', hideChatOverlay);
-        }
-    }
-
-    chatOverlay.addEventListener("click", hideChatOverlay);
     
     // 프롬프트 창
     // 챗 아이콘 클릭 시 프롬프트 입력 창 표시
@@ -146,10 +136,13 @@ document.addEventListener("DOMContentLoaded", function() {
         userQuery = "";
     };
 
-      
-    
-
     // 챗봇 답변 섹션
     // 흰색 섹션 외부 클릭 시 초기 상태로 복구
+    chatOverlay.addEventListener("click", function (event) {
+        if (event.target === chatOverlay) {
+            chatOverlay.style.display = "none";
+            chatResponse.innerHTML = "";  // 응답 내용 초기화
+        }
+    });
     
 });
