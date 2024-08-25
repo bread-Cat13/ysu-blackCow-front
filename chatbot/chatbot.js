@@ -94,8 +94,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     
     // 프롬프트 입력 후 전송 버튼 클릭 시
-    submitBtn.addEventListener("click", submitchatbot)
+    submitBtn.addEventListener("click", submitchatbot);
     let conversationHistory = [];
+
     async function submitchatbot() {
         const userQuery = userInput.value.trim();
         conversationHistory.push(`User: ${userQuery}`);
@@ -109,24 +110,131 @@ document.addEventListener("DOMContentLoaded", function() {
                     },
                     body: JSON.stringify({ user_input: fullConversation })
                 });
-                // 예시 응답 (실제 API 연동 시 서버로부터 받은 데이터를 사용)
-                const data = await response.json()
-                
-                let formattedString = 'query_result:\n';
 
-                for (const key in data.query_result) {
-                    let value = data.query_result[key];
-    
-                    // null 또는 빈 문자열인 경우 "없음"으로 대체
-                    if (value === null || value === "") {
-                        value = "없음";
-                    }
-    
-                    formattedString += `${key}: ${value}\n`;
+                const data = await response.json();
+
+                if (data.query_result['접근위치'] == "") {
+                    p1 = "접근위치 : 없음" + data.query_result['접근위치'];
+                } else {
+                    p1 = "접근위치 : " + data.query_result['접근위치'];
                 }
-                formattedString = formattedString.replace(/\n/g, '<br>');                
-                // 응답 오버레이 표시
-                chatResponse.innerHTML = `<p>${formattedString}</p>`;
+                if (data.query_result['참고사항'] == "") {
+                    p2 = "참고사항 : 없음" + data.query_result['참고사항'];
+                } else {
+                    p2 = "참고사항 : " + data.query_result['참고사항'];
+                }
+
+                chatResponse.innerHTML = `
+                <h2>${data.query_result['요약']}</h2>
+                <p>${p1}</p>
+                <p>${p2}</p>
+                <a href="#" id="map-link">2D MAP</a>
+                <div class="wrapper">
+                  <div class="image-container" id="imageContainer">
+                    <!-- 지도 이미지와 오버레이가 이 div에 추가됩니다 -->
+                  </div>
+                </div>
+              `;
+
+                const style = document.createElement('style');
+                style.textContent = `
+                .wrapper {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                }
+              
+                .image-container {
+                  position: relative;
+                  width: 100%;
+                  height: auto;
+                  max-width: 1150px;
+                  max-height: 850px;
+                }
+              
+                .main-image {
+                  width: 100%;
+                  height: auto;
+                }
+              
+                .overlay-image {
+                  position: absolute;
+                  width: 32px;
+                  height: 32px;
+                }
+              `;
+
+                document.head.appendChild(style);
+
+                let overlayCount = 0;
+                const overlayPositions = [];
+
+                function addOverlayAndMap() {
+                    const container = document.getElementById('imageContainer');
+
+                    // 기존 이미지 제거
+                    container.innerHTML = '';
+
+                    // 지도 이미지 동적 추가
+                    const mapImage = document.createElement('img');
+                    mapImage.src = '../chatbot/1.png';  // 지도 이미지 경로
+                    mapImage.alt = '지도 이미지';
+                    mapImage.className = 'main-image';
+                    mapImage.id = 'main-map-image';
+
+                    container.appendChild(mapImage);
+
+                    // 이미지 로드 완료 후 오버레이 추가
+                    mapImage.onload = function () {
+                        // 오버레이 이미지 추가
+                        const xPos = data.query_result['X_JPG'];
+                        const yPos = data.query_result['Y_JPG'];
+
+                        const overlay = document.createElement('img');
+                        overlay.src = '../chatbot/location2.png';
+                        overlay.alt = '오버레이 이미지';
+                        overlay.className = 'overlay-image';
+                        overlay.id = `overlay-${overlayCount}`;
+
+                        overlayPositions.push({ id: overlay.id, x: xPos, y: yPos });
+                        container.appendChild(overlay);
+
+                        updatePosition(overlay, xPos, yPos);
+                        overlayCount++;
+                    };
+
+                    container.appendChild(mapImage);
+                }
+
+                function updatePosition(overlay, xPos, yPos) {
+                    const container = document.querySelector('.image-container');
+                    const containerWidth = container.clientWidth;
+                    const containerHeight = container.clientHeight;
+
+                    const scaleX = containerWidth / 1150;
+                    const scaleY = containerHeight / 850;
+
+                    overlay.style.left = `${xPos * scaleX - (16 * scaleX)}px`;
+                    overlay.style.top = `${yPos * scaleY - (32 * scaleY)}px`;
+
+                    const overlayOriginalSize = 32;
+                    overlay.style.width = `${overlayOriginalSize * scaleX}px`;
+                    overlay.style.height = `${overlayOriginalSize * scaleY}px`;
+                }
+
+                window.addEventListener('resize', () => {
+                    overlayPositions.forEach(pos => {
+                        const overlay = document.getElementById(pos.id);
+                        updatePosition(overlay, pos.x, pos.y);
+                    });
+                });
+
+                // '2D MAP' 링크에 이벤트 리스너 추가
+                document.getElementById('map-link').addEventListener('click', function (event) {
+                    event.preventDefault();
+                    addOverlayAndMap();
+                });
+
                 chatOverlay.style.display = "block";
                 chatPrompt.style.display = "none";  // 입력 창 숨김
             }
@@ -134,14 +242,8 @@ document.addEventListener("DOMContentLoaded", function() {
             addMessageToLog(`Error: ${error.message}`);
         }
         userInput.value = "";
-    };
-
+    }
     // 챗봇 답변 섹션
     // 흰색 섹션 외부 클릭 시 초기 상태로 복구
-    chatOverlay.addEventListener("click", function (event) {
-        if (event.target === chatOverlay) {
-            chatOverlay.style.display = "none";
-        }
-    });
-    
+
 });
