@@ -94,8 +94,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 프롬프트 입력 후 전송 버튼 클릭 시
     submitBtn.addEventListener("click", submitchatbot)
+    let conversationHistory = [];
     async function submitchatbot() {
         const userQuery = userInput.value.trim();
+        conversationHistory.push(`User: ${userQuery}`);
+        const fullConversation = conversationHistory.join('\n');
         try {
             if (userQuery !== "") {
                 const response = await fetch('https://g0whs12323.execute-api.ap-south-1.amazonaws.com/dev/chatbot', {
@@ -103,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ user_input: userQuery })
+                    body: JSON.stringify({ user_input: fullConversation })
                 });
                 // 예시 응답 (실제 API 연동 시 서버로부터 받은 데이터를 사용)
                 const data = await response.json()
