@@ -3,6 +3,7 @@
     position: absolute;
     bottom: 50px;
     left: 50%;
+    width: 100%;
     transform: translateX(-50%);
     z-index: 1000;
     
@@ -11,7 +12,7 @@
 #chat-icon {
     position: absolute;
     bottom: 0%;
-    left: 0%;
+    left: 50%;
     transform: translateX(-50%);
     width: 70px;
     height: 70px;
@@ -26,10 +27,10 @@
 /* 챗 옵션 메뉴 (숨겨진 상태에서 마우스 오버시 나타남) */
 #chat-options {
     position: absolute;
-    left: -50px; 
-    bottom: 70px;
+    left: 50%; 
+    bottom: 80px;
     width: 150px;
-    transform: translateX(15%);
+    transform: translateX(-15%);
     background-color: rgba(0,0,0 0.5);
     border: 1px solid #ccc;
     padding: 10px;
@@ -57,9 +58,10 @@
 /* 프롬프트 입력 창 */
 #chat-prompt {
     position: absolute;
-    left: 0%;
-    bottom: 0%;
-    transform: translateX(7%);
+    left: 50%;
+    width: 30%; 
+    bottom: 10px;
+    transform: translateX(40px);
     background: rgb(170, 189, 190) border-box;
     border: 3px solid transparent;
     background-clip: border-box;
@@ -72,7 +74,7 @@
 
 
 #chat-prompt input {
-    width: 100%;
+    width: 90%;
     padding: 5px;
     border-width: 0px;
     background-color: rgb(170, 189, 190);
@@ -82,8 +84,9 @@
     position: absolute;
     width: 30px;
     height: 30px;
-    left: 97%;
+    left: 100%;
     border-radius: 50%;
+    transform: translateX(-30px);
     background: url('../image/submit_icon.png') no-repeat center;
     background-size: cover;
     border: none;
