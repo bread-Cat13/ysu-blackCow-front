@@ -110,9 +110,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 // 예시 응답 (실제 API 연동 시 서버로부터 받은 데이터를 사용)
                 const data = await response.json()
-                const responseText = JSON.stringify(data)
+                
+                let formattedString = 'query_result:\n';
+
+                for (const key in data.query_result) {
+                    let value = data.query_result[key];
+    
+                    // null 또는 빈 문자열인 경우 "없음"으로 대체
+                    if (value === null || value === "") {
+                        value = "없음";
+                    }
+    
+                    formattedString += `${key}: ${value}\n`;
+                }
+                formattedString = formattedString.replace(/\n/g, '<br>');                
                 // 응답 오버레이 표시
-                chatResponse.innerHTML = `<p>${responseText}</p>`;
+                chatResponse.innerHTML = `<p>${formattedString}</p>`;
                 chatOverlay.style.display = "block";
                 chatPrompt.style.display = "none";  // 입력 창 숨김
             }
@@ -121,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         userQuery = "";
     };
-
+    
     // 챗봇 답변 섹션
     // 흰색 섹션 외부 클릭 시 초기 상태로 복구
     chatOverlay.addEventListener("click", function (event) {
