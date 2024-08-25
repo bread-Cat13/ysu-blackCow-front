@@ -104,48 +104,47 @@ document.addEventListener("DOMContentLoaded", function() {
 
     
     // 프롬프트 입력 후 전송 버튼 클릭 시
-    submitBtn.addEventListener("click", function() {
-        sendMessage();
-        chatOverlay.style.display = "block";
-        chatPrompt.style.display = "none";  // 입력 창 숨김
-
-        userInput.value = "";
-    });
-    // 챗봇 내용 받아와서 보여주기
-    function addMessageToLog(message) {
-        const newMessage = document.createElement('p');
-        newMessage.textContent = message;
-        chatResponse.appendChild(newMessage);
-        chatResponse.scrollTop = chatResponse.scrollHeight;
-      }
-  
-      async function sendMessage() {
-        const userQuary = userInput.value;
-        addMessageToLog(`You: ${userQuary}`);
-  
+    submitBtn.addEventListener("click", submitchatbot)
+    let conversationHistory = [];
+    async function submitchatbot() {
+        const userQuery = userInput.value.trim();
+        conversationHistory.push(`User: ${userQuery}`);
+        const fullConversation = conversationHistory.join('\n');
         try {
-          // Lambda 함수 호출 직후 메시지 추가
-          const response = await fetch('https://g0whs12323.execute-api.ap-south-1.amazonaws.com/dev/chatbot', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ user_input: userQuary })
-          });
+            if (userQuery !== "") {
+                const response = await fetch('https://g0whs12323.execute-api.ap-south-1.amazonaws.com/dev/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_input: fullConversation })
+                });
+                // 예시 응답 (실제 API 연동 시 서버로부터 받은 데이터를 사용)
+                const data = await response.json()
+                
+                let formattedString = 'query_result:\n';
 
-
-          const result = await response.json();
-          addMessageToLog(JSON.stringify(result))
-          if (result.query_result) {
-            addMessageToLog(`Lambda: Step 5 executed successfully`);
-            addMessageToLog(`Result: ${result.query_result.이름}`);
-          } else if (result.error) {
-            addMessageToLog(`Error: ${result.error}`);
-          }
+                for (const key in data.query_result) {
+                    let value = data.query_result[key];
+    
+                    // null 또는 빈 문자열인 경우 "없음"으로 대체
+                    if (value === null || value === "") {
+                        value = "없음";
+                    }
+    
+                    formattedString += `${key}: ${value}\n`;
+                }
+                formattedString = formattedString.replace(/\n/g, '<br>');                
+                // 응답 오버레이 표시
+                chatResponse.innerHTML = `<p>${formattedString}</p>`;
+                chatOverlay.style.display = "block";
+                chatPrompt.style.display = "none";  // 입력 창 숨김
+            }
         } catch (error) {
-          addMessageToLog(`Error: ${error.message}`);
+            addMessageToLog(`Error: ${error.message}`);
         }
-      }
+        userQuery = "";
+    };
 
       
     
