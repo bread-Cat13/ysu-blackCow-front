@@ -31,15 +31,38 @@ document.addEventListener("DOMContentLoaded", function () {
     var buildings = [
         {
             // 예시
-            name: "공학관",
-            position: new naver.maps.LatLng(37.5619, 126.9364),
-            details: "연세대학교 공학관. 다양한 공학 강의가 진행됩니다."
+            name: "공학관 A",
+            bId: 121,
+            position: new naver.maps.LatLng(37.5617343, 126.9367201),
+            details: "연세대학교 제 1 공학관. 다양한 공학 강의가 진행됩니다."
         },
         {
-            name: "백양관",
-            position: new naver.maps.LatLng(37.5667, 126.9790),
-            details: "연세대학교 백양관. 학생들이 많이 찾는 장소입니다."
-        }
+            // 예시
+            name: "공학관 B",
+            bId: 122,
+            position: new naver.maps.LatLng(37.5623969, 126.9352825),
+            details: "연세대학교 제 2 공학관. 다양한 공학 강의가 진행됩니다."
+        },
+        {
+            // 예시
+            name: "공학관 C",
+            bId: 123,
+            position: new naver.maps.LatLng(37.5617291, 126.935085),
+            details: "연세대학교 제 3 공학관. 다양한 공학 강의가 진행됩니다."
+        },
+        {
+            // 예시
+            name: "공학관 D",
+            bId: 124,
+            position: new naver.maps.LatLng(37.5618404, 126.9361569),
+            details: "연세대학교 제 4 공학관. 다양한 공학 강의가 진행됩니다."
+        },
+        // {
+        //     name: "백양관",
+        //     bId: 221, //번호 뭔지 모름 수정 필요!!
+        //     position: new naver.maps.LatLng(37.5667, 126.9790),
+        //     details: "연세대학교 백양관. 학생들이 많이 찾는 장소입니다."
+        // }
     ];
 
     // 건물 마커 및 이벤트 등록
@@ -116,7 +139,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // 건물 이름 클릭시 해당 페이지로 이동
     var nameElement = document.getElementById("building-name");
     nameElement.addEventListener('click', function () {
-        window.location.href = "../building/building_info.html"
-    })
+        var buildingId = buildings.find(building => building.name === nameElement.innerText).bId;
+        var buildingName = buildings.find(building => building.name === nameElement.innerText).name;
+        window.location.href = `../building/building_info.html?buildingId=${buildingId}&buildingName=${buildingName}`;
+    });
 
 });
