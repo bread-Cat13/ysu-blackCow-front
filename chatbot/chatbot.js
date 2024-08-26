@@ -96,7 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // 프롬프트 입력 후 전송 버튼 클릭 시
     submitBtn.addEventListener("click", submitchatbot);
     let conversationHistory = [];
-
     async function submitchatbot() {
         const userQuery = userInput.value.trim();
         conversationHistory.push(`User: ${userQuery}`);
@@ -161,8 +160,8 @@ document.addEventListener("DOMContentLoaded", function () {
               
                 .overlay-image {
                   position: absolute;
-                  width: 32px;
-                  height: 32px;
+                  width: 48px;
+                  height: 48px;
                 }
               `;
 
@@ -189,8 +188,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     // 이미지 로드 완료 후 오버레이 추가
                     mapImage.onload = function () {
                         // 오버레이 이미지 추가
-                        const xPos = data.query_result['X_JPG'] - 16;
-                        const yPos = data.query_result['Y_JPG'] - 32;
+                        const xPos = data.query_result['X_JPG'] - 24;
+                        const yPos = data.query_result['Y_JPG'] - 24;
 
                         const overlay = document.createElement('img');
                         overlay.src = '../image/pin2.png';
@@ -232,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         overlay.style.top = `${yPos * scale + offsetY}px`;
 
                         // 오버레이 크기 조정
-                        const overlayOriginalSize = 32;
+                        const overlayOriginalSize = 48;
                         overlay.style.width = `${overlayOriginalSize * scale}px`;
                         overlay.style.height = `${overlayOriginalSize * scale}px`;
                     }
