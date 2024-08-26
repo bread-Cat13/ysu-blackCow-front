@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sinchon map</title>
+    <link rel="stylesheet" href="map.css">
+    <link rel="stylesheet" href="../chatbot/chatbot.css">
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uulniz1rtq"></script>
+</head>
+<body>
+    <!-- 네이버 지도 영역 -->
+    <div id="map"></div>
+
+    <!-- 건물 정보 오버레이 섹션 (초기에는 숨김) -->
+    <div id="building-info">
+        <h2 id="building-name"></h2>
+        <p id="building-details"></p>
+    </div>
+
+    <div id="chat-container">
+        <div id="chat-options">
+            <ul>
+                <li>챗봇의 이전 답변 보기</li>
+                <li>Chat icon 옆으로 밀기</li>
+                <li>이전 대화기록 삭제</li>
+            </ul>
+        </div>
+    
+        <div id="chat-icon"></div>
+    
+        <!-- 프롬프트 입력 창 (초기에는 숨김) -->
+        <div id="chat-prompt">
+            <input type="text" id="user-input" placeholder="질문을 입력하세요...">
+            <button id="submit-btn"></button>
+        </div>
+    </div>
+
+    <!-- 언어모델 응답을 위한 오버레이 섹션 (초기에는 숨김) -->
+    <div id="chat-response-overlay">
+        <div id="chat-response">
+            <!-- 언어모델의 응답이 여기에 표시됩니다 -->
+        </div>
+    </div>
+
+    <script src="map.js"></script>
+    <script src= "../chatbot/chatbot.js"></script>
+</body>
+</html>
