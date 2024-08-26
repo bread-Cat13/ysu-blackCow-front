@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const currClient = document.title;
 
     if (currClient === "sinchon map") {
-        locationX = 37.5601;
-        locationY = 126.9368;
+        locationX = 37.5617343;
+        locationY = 126.9369;
     } else if (currClient === "songdo map") {
         locationX = 37.3812;
         locationY = 126.6688;

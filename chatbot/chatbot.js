@@ -1,7 +1,7 @@
 // scripts.js
 document.addEventListener("DOMContentLoaded", function () {
     // 챗 아이콘 요소
-    const hostIp = "3.108.6.175"
+    const hostIp = "13.235.63.60"
     const chatIcon = document.getElementById("chat-icon");
     const chatOptions = document.getElementById("chat-options");
     const liItems = document.querySelectorAll('#chat-options ul li');
@@ -115,25 +115,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 const data = await response.json();
                 console.log(data.query_result)
                 console.log("여기까지는 성공!")
-                // back2 지도서버와 소통
-                fetch(`http://${hostIp}:8080/map/buildings/floors?bId=${data.query_result['건물번호']}&f=${data.query_result['층']}`, {
-                    method: 'GET',
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.blob(); // 이미지 데이터를 바이너리 형식으로 가져옴
-                    })
-                    .then(imageBlob => {
-                        const imageUrl = URL.createObjectURL(imageBlob); // 이미지 Blob을 URL로 변환
-                        currentImageUrl = imageUrl; // 현재 이미지 URL 저장
-                    })
-                    .catch(error => {
-                        console.error('There was a problem with the fetch operation:', error);
-                    });
                 // 얻은 답변을 정리
                 if (data.query_result[data.query_result.length - 2] === 1) {
+                    // back2 지도서버와 소통
+                    async function getCurrentImageUrl(data) {
+                        try {
+                            const buildingnumber = parseInt(data.query_result[0]['건물번호']);
+                            const floor = data.query_result[0]['층'];
+                            const response = await fetch(`http://${hostIp}:8080/map/buildings/floors?bId=${buildingnumber}&f=${floor}`, {
+                                method: 'GET',
+                            });
+
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+
+                            const imageBlob = await response.blob(); // 이미지 데이터를 바이너리 형식으로 가져옴
+                            const imageUrl = URL.createObjectURL(imageBlob); // 이미지 Blob을 URL로 변환
+                            return imageUrl;
+                        } catch (error) {
+                            console.error('There was a problem with the fetch operation:', error);
+                            return null; // 오류 발생 시 null을 반환
+                        }
+                    }
+
+                    // 사용 예시:
+                    const currentImageUrl = await getCurrentImageUrl(data);
+                    // 여기서 `currentImageUrl`은 이미지의 URL이거나 null입니다.
+
                     if (data.query_result[0]['접근위치'] == "") {
                         p1 = "접근위치 : 없음" + data.query_result[0]['접근위치'];
                     } else {
@@ -290,7 +299,34 @@ document.addEventListener("DOMContentLoaded", function () {
                     chatResponse.innerHTML = `
                     <h2>${data.query_result[data.query_result.length - 1]}</h2>
                   `;
+                    imageurl = []
                     for (let i = 0; i < data.query_result.length - 2; i++) {
+                        async function fetchImageUrl(data, i) {
+                            try {
+                                const buildingnumber = parseInt(data.query_result[i]['건물번호']);
+                                const floor = data.query_result[i]['층'];
+                                const response = await fetch(`http://${hostIp}:8080/map/buildings/floors?bId=${buildingnumber}&f=${floor}`, {
+                                    method: 'GET',
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+
+                                const imageBlob = await response.blob(); // 이미지 데이터를 바이너리 형식으로 가져옴
+                                const imageUrl = URL.createObjectURL(imageBlob); // 이미지 Blob을 URL로 변환
+                                return imageUrl;
+                            } catch (error) {
+                                console.error('There was a problem with the fetch operation:', error);
+                                return null; // 오류 발생 시 null을 반환
+                            }
+                        }
+
+                        // 사용 예시:
+                        const currentImageUrl = await fetchImageUrl(data, i);
+                        imageurl.push(currentImageUrl)
+                        // 여기서 `currentImageUrl`은 이미지의 URL이거나 null입니다.
+
                         if (data.query_result[i]['접근위치'] == "") {
                             p1 = "접근위치 : 없음" + data.query_result[i]['접근위치'];
                         } else {
@@ -313,6 +349,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>           
                         `;
                     }
+                    console.log(imageurl)
                     const style = document.createElement('style');
                     style.textContent = `
                     .wrapper {
@@ -358,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         // 지도 이미지 동적 추가
                         const mapImage = document.createElement('img');
-                        mapImage.src = currentImageUrl;  // 지도 이미지 경로
+                        mapImage.src = imageurl[index];  // 지도 이미지 경로
                         mapImage.alt = '지도 이미지';
                         mapImage.className = 'main-image';
                         mapImage.id = 'main-map-image';
