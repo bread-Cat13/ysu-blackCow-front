@@ -1,6 +1,7 @@
 // scripts.js
 document.addEventListener("DOMContentLoaded", function () {
     // 챗 아이콘 요소
+    const hostIp = "3.108.6.175"
     const chatIcon = document.getElementById("chat-icon");
     const chatOptions = document.getElementById("chat-options");
     const liItems = document.querySelectorAll('#chat-options ul li');
@@ -122,6 +123,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     p2 = "참고사항 : " + data.query_result['참고사항'];
                 }
+                console.log("여기까지는 성공!")
+                fetch(`http://${hostIp}:8080/map/buildings/floors?bId=${data.query_result['건물번호']}&f=${data.query_result['층']}`, {
+                    method: 'GET',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.blob(); // 이미지 데이터를 바이너리 형식으로 가져옴
+                    })
+                    .then(imageBlob => {
+                        const imageUrl = URL.createObjectURL(imageBlob); // 이미지 Blob을 URL로 변환
+                        currentImageUrl = imageUrl; // 현재 이미지 URL 저장
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
 
                 chatResponse.innerHTML = `
                 <h2>${data.query_result['요약']}</h2>
@@ -178,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // 지도 이미지 동적 추가
                     const mapImage = document.createElement('img');
-                    mapImage.src = '../chatbot/1.png';  // 지도 이미지 경로
+                    mapImage.src = currentImageUrl;  // 지도 이미지 경로
                     mapImage.alt = '지도 이미지';
                     mapImage.className = 'main-image';
                     mapImage.id = 'main-map-image';
