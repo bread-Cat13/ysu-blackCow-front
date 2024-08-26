@@ -103,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const fullConversation = conversationHistory.join('\n');
         try {
             if (userQuery !== "") {
+                // back1 챗봇서버와 소통
                 const response = await fetch('https://g0whs12323.execute-api.ap-south-1.amazonaws.com/dev/chatbot', {
                     method: 'POST',
                     headers: {
@@ -114,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const data = await response.json();
                 console.log(data.query_result)
                 console.log("여기까지는 성공!")
+                // back2 지도서버와 소통
                 fetch(`http://${hostIp}:8080/map/buildings/floors?bId=${data.query_result['건물번호']}&f=${data.query_result['층']}`, {
                     method: 'GET',
                 })
@@ -130,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
                     });
+                // 얻은 답변을 정리
                 if (data.query_result[data.query_result.length - 2] === 1) {
                     if (data.query_result[0]['접근위치'] == "") {
                         p1 = "접근위치 : 없음" + data.query_result[0]['접근위치'];
@@ -196,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         // 지도 이미지 동적 추가
                         const mapImage = document.createElement('img');
-                        mapImage.src = '../chatbot/1.png';  // 지도 이미지 경로
+                        mapImage.src = currentImageUrl;  // 지도 이미지 경로
                         mapImage.alt = '지도 이미지';
                         mapImage.className = 'main-image';
                         mapImage.id = 'main-map-image';
@@ -355,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         // 지도 이미지 동적 추가
                         const mapImage = document.createElement('img');
-                        mapImage.src = '../chatbot/1.png';  // 지도 이미지 경로
+                        mapImage.src = currentImageUrl;  // 지도 이미지 경로
                         mapImage.alt = '지도 이미지';
                         mapImage.className = 'main-image';
                         mapImage.id = 'main-map-image';
